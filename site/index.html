@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArchGuardian – The AI Architectural Linter</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F5F5;
+            color: #333333;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #6A8EAE;
+            border-bottom-color: #6A8EAE;
+        }
+        .flow-step {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .flow-step:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        footer p.credits {
+            text-transform:uppercase;
+            font-size:13px;
+            letter-spacing:3px;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-[#333333]">ArchGuardian</h1>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#problem" class="nav-link font-semibold pb-1">The Problem</a>
+                <a href="#solution" class="nav-link font-semibold pb-1">The Solution</a>
+                <a href="#architecture" class="nav-link font-semibold pb-1">Architecture</a>
+                <a href="#examples" class="nav-link font-semibold pb-1">Examples</a>
+                <a href="#faq" class="nav-link font-semibold pb-1">FAQ</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="py-20 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold text-[#333333] mb-4">The AI Architectural Linter</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-12">A per‑repository micro‑model that understands your project’s architecture, patterns, and intent - and protects it from drift, rot, and inconsistency.</p>
+                <div class="flex justify-center gap-4">
+                    <a href="#problem" class="bg-[#6A8EAE] text-white font-bold py-3 px-6 rounded hover:bg-[#597a9a] transition-colors">Why This Matters</a>
+                    <a href="https://github.com/4loopltd/archguardian" class="bg-gray-200 text-[#333333] font-bold py-3 px-6 rounded hover:bg-gray-300 transition-colors">View on GitHub</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="problem" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-4">The Problem: AI Drift</h2>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">AI accelerates development, but it also accelerates architectural drift. Inconsistent patterns, duplicated logic, and context‑free code generation are becoming the new technical debt.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg flow-step cursor-pointer hover:bg-gray-50 transition-colors" onclick="openModal('context-limits')">
+                        <h3 class="text-xl font-bold text-[#6A8EAE] mb-3">Context Limits</h3>
+                        <p class="text-gray-600">Even the best AI models only see a slice of the codebase. They lack persistent, repo‑specific memory and cannot enforce long‑term structure.</p>
+                        <p class="text-sm text-[#6A8EAE] mt-4 font-semibold flex items-center">Read more <span class="ml-1">→</span></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg flow-step cursor-pointer hover:bg-gray-50 transition-colors" onclick="openModal('inconsistent-patterns')">
+                        <h3 class="text-xl font-bold text-[#6A8EAE] mb-3">Inconsistent Patterns</h3>
+                        <p class="text-gray-600">Different agents and developers introduce different approaches. Naming conventions drift, and modules evolve independently instead of cohesively.</p>
+                        <p class="text-sm text-[#6A8EAE] mt-4 font-semibold flex items-center">Read more <span class="ml-1">→</span></p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg flow-step cursor-pointer hover:bg-gray-50 transition-colors" onclick="openModal('review-overload')">
+                        <h3 class="text-xl font-bold text-[#6A8EAE] mb-3">Review Overload</h3>
+                        <p class="text-gray-600">Senior engineers spend too much time policing patterns and explaining architectural decisions that should be self‑evident.</p>
+                        <p class="text-sm text-[#6A8EAE] mt-4 font-semibold flex items-center">Read more <span class="ml-1">→</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-4">The Solution: A Per‑Repo Micro‑Model</h2>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">ArchGuardian introduces a project‑specific AI model that lives inside your repository and evolves with every change.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-6">
+                        <div class="flex items-start cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors border border-transparent hover:border-gray-200" onclick="openModal('micro-model')">
+                            <div class="bg-[#B4D4E4] p-3 rounded-full mr-4 text-xl font-bold text-[#333333] flex-shrink-0 w-12 h-12 flex items-center justify-center">1</div>
+                            <div>
+                                <h4 class="text-xl font-bold text-[#333333]">Micro‑Model Per Repository</h4>
+                                <p class="text-gray-600 mb-2">Small enough to train locally (1–3B), but large enough to encode patterns, naming, and architecture.</p>
+                                <p class="text-xs text-[#6A8EAE] font-semibold uppercase tracking-wide">Learn More</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors border border-transparent hover:border-gray-200" onclick="openModal('lora-updates')">
+                            <div class="bg-[#B4D4E4] p-3 rounded-full mr-4 text-xl font-bold text-[#333333] flex-shrink-0 w-12 h-12 flex items-center justify-center">2</div>
+                            <div>
+                                <h4 class="text-xl font-bold text-[#333333]">LoRA Updates on PR Merge</h4>
+                                <p class="text-gray-600 mb-2">A GitHub Action fine‑tunes the model using the diff, context, PR description, and review comments.</p>
+                                <p class="text-xs text-[#6A8EAE] font-semibold uppercase tracking-wide">Learn More</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors border border-transparent hover:border-gray-200" onclick="openModal('scheduled-rebuilds')">
+                            <div class="bg-[#B4D4E4] p-3 rounded-full mr-4 text-xl font-bold text-[#333333] flex-shrink-0 w-12 h-12 flex items-center justify-center">3</div>
+                            <div>
+                                <h4 class="text-xl font-bold text-[#333333]">Scheduled Rebuilds</h4>
+                                <p class="text-gray-600 mb-2">Nightly or weekly jobs rebuild the model from scratch to prevent drift and ensure full context.</p>
+                                <p class="text-xs text-[#6A8EAE] font-semibold uppercase tracking-wide">Learn More</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-100 p-8 rounded-lg border border-gray-200">
+                        <h3 class="text-2xl font-bold mb-4 text-[#6A8EAE]">Why This Works</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> <span><strong>Persistent Context:</strong> The model remembers architectural decisions.</span></li>
+                            <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> <span><strong>Privacy First:</strong> Models stay in your repo; no cross‑tenant training.</span></li>
+                            <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> <span><strong>Agent Agnostic:</strong> Works with Copilot, Claude, Cursor, or any MCP tool.</span></li>
+                            <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> <span><strong>Economically Viable:</strong> Client‑side training means no massive hosting costs.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="architecture" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-4">System Architecture</h2>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">How ArchGuardian integrates into your existing workflow.</p>
+
+                <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+                    <div class="bg-white p-6 rounded-lg shadow-md w-full md:w-1/4 text-center border-t-4 border-[#6A8EAE] cursor-pointer hover:shadow-lg transition-shadow hover:bg-gray-50" onclick="openModal('base-model')">
+                        <h4 class="font-bold text-lg mb-2">1. Base Model</h4>
+                        <p class="text-sm text-gray-600">Standard 1-3B parameter model suitable for LoRA.</p>
+                        <p class="text-xs text-[#6A8EAE] mt-3 font-semibold">View Details →</p>
+                    </div>
+                    <div class="text-2xl text-[#6A8EAE]">→</div>
+                    <div class="bg-white p-6 rounded-lg shadow-md w-full md:w-1/4 text-center border-t-4 border-[#6A8EAE] cursor-pointer hover:shadow-lg transition-shadow hover:bg-gray-50" onclick="openModal('fine-tuning')">
+                        <h4 class="font-bold text-lg mb-2">2. Fine-Tuning</h4>
+                        <p class="text-sm text-gray-600">GitHub Actions run LoRA updates on every PR merge.</p>
+                        <p class="text-xs text-[#6A8EAE] mt-3 font-semibold">View Details →</p>
+                    </div>
+                    <div class="text-2xl text-[#6A8EAE]">→</div>
+                    <div class="bg-white p-6 rounded-lg shadow-md w-full md:w-1/4 text-center border-t-4 border-[#6A8EAE] cursor-pointer hover:shadow-lg transition-shadow hover:bg-gray-50" onclick="openModal('inference')">
+                        <h4 class="font-bold text-lg mb-2">3. Inference</h4>
+                        <p class="text-sm text-gray-600">Agents query the model via MCP for architectural guidance.</p>
+                        <p class="text-xs text-[#6A8EAE] mt-3 font-semibold">View Details →</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="examples" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-4">Example Interactions</h2>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">See how ArchGuardian acts as an intelligent architectural assistant.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-[#6A8EAE] mb-2">Pattern Detection</h4>
+                        <p class="italic text-gray-600 mb-2">"Where is OAuth implemented in this repo?"</p>
+                        <div class="bg-white p-4 rounded border border-gray-300 text-sm font-mono text-gray-700">
+                            > Library: Spring Security<br>
+                            > Pattern: Custom middleware<br>
+                            > Entry point: AuthConfig.java<br>
+                            > Used in: gateway, user-service
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-[#6A8EAE] mb-2">Impact Analysis</h4>
+                        <p class="italic text-gray-600 mb-2">"What breaks if I change UserDTO?"</p>
+                        <div class="bg-white p-4 rounded border border-gray-300 text-sm font-mono text-gray-700">
+                            > 3 Service classes affected<br>
+                            > 2 API endpoints need updates<br>
+                            > 5 Test suites will fail
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-[#6A8EAE] mb-2">Architectural Linting</h4>
+                        <p class="italic text-gray-600 mb-2">"Is this PR consistent with our event handler pattern?"</p>
+                        <div class="bg-white p-4 rounded border border-gray-300 text-sm font-mono text-gray-700">
+                            > WARNING: Event naming mismatch.<br>
+                            > Expected: [Domain]Event<br>
+                            > Found: [Domain]Message
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-[#6A8EAE] mb-2">Canonical Guidance</h4>
+                        <p class="italic text-gray-600 mb-2">"How do I add a new event handler?"</p>
+                        <div class="bg-white p-4 rounded border border-gray-300 text-sm font-mono text-gray-700">
+                            > Use the @EventHandler annotation.<br>
+                            > Extend BaseEvent.<br>
+                            > Register in EventRegistry.java.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-4">FAQ</h2>
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <div>
+                        <h4 class="font-bold text-lg text-[#333333]">Why not just use embeddings or RAG?</h4>
+                        <p class="text-gray-600">Embeddings provide retrieval, not understanding. They cannot learn patterns, enforce architecture, or evolve with the codebase in the same way a fine-tuned model can.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg text-[#333333]">Is this secure?</h4>
+                        <p class="text-gray-600">Yes. Models are stored inside your repository. Training happens locally or on self‑hosted runners. There is no cross‑tenant training or centralised model hosting.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg text-[#333333]">Does this replace Copilot?</h4>
+                        <p class="text-gray-600">No. ArchGuardian is a context provider. It enhances Copilot, Claude, and other agents by giving them the deep, project‑specific architectural intelligence they currently lack.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#333333] text-white mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="font-bold text-lg">ArchGuardian: The Missing Layer Between AI and Engineering.</p>
+            <p class="text-sm text-gray-300 mt-2">A proposal for the future of AI‑assisted development.</p>
+            <p class="credits">Copyright &copy; 4Loop Ltd 2025</p>
+        </div>
+    </footer>
+
+    <!-- Modal Template -->
+    <div id="modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm" onclick="closeModal(event)">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl m-4 p-8 relative overflow-y-auto max-h-[90vh] transform transition-all" onclick="event.stopPropagation()">
+            <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onclick="closeModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div id="modal-body">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modalContent = {
+            'context-limits': {
+                title: 'The Context Limit Problem',
+                body: `
+                    <p class="mb-4">Even the most advanced LLMs (like GPT-4 or Claude 3) have a finite context window. When you ask them to write code, they only see what you paste or what your IDE retrieves via RAG (Retrieval-Augmented Generation).</p>
+                    <p class="mb-4"><strong>Why this fails for architecture:</strong></p>
+                    <ul class="list-disc pl-5 mb-4 space-y-2">
+                        <li><strong>Fragmentation:</strong> The model sees individual files, not the system-wide relationships.</li>
+                        <li><strong>Amnesia:</strong> It doesn't remember <em>why</em> a decision was made three months ago.</li>
+                        <li><strong>Hallucination:</strong> Without strict constraints, it invents new patterns that conflict with existing ones.</li>
+                    </ul>
+                    <p>ArchGuardian solves this by compressing the entire repository's architectural intent into the model weights themselves, providing a "gut feeling" for what is correct in <em>this specific project</em>.</p>
+                `
+            },
+            'inconsistent-patterns': {
+                title: 'The Drift of Inconsistency',
+                body: `
+                    <p class="mb-4">In a team of 10 developers using 3 different AI assistants, you effectively have 30 different coding styles competing for dominance.</p>
+                    <p class="mb-4"><strong>Common symptoms:</strong></p>
+                    <ul class="list-disc pl-5 mb-4 space-y-2">
+                        <li><strong>Naming Chaos:</strong> <code>UserFetcher</code> vs <code>UserRepository</code> vs <code>UserDao</code>.</li>
+                        <li><strong>Layer Violations:</strong> Controllers calling Repositories directly in some places, but using Services in others.</li>
+                        <li><strong>Duplicate Utilities:</strong> Three different <code>DateUtils</code> classes generated by three different prompts.</li>
+                    </ul>
+                    <p>ArchGuardian acts as the single source of truth, flagging these inconsistencies at the PR stage before they merge.</p>
+                `
+            },
+            'review-overload': {
+                title: 'Senior Engineer Burnout',
+                body: `
+                    <p class="mb-4">Code review should be about logic, security, and performance. Instead, senior engineers are spending 80% of their review time on "nitpicking" patterns.</p>
+                    <p class="mb-4"><em>"Please move this logic to the Service layer."</em><br><em>"We don't use Lombok here."</em><br><em>"This doesn't match our error handling pattern."</em></p>
+                    <p><strong>The ArchGuardian Effect:</strong></p>
+                    <p>By automating architectural linting, ArchGuardian handles the "boring" parts of the review. This frees up senior engineers to focus on high-value problem solving, not pattern policing.</p>
+                `
+            },
+            'micro-model': {
+                title: 'Why a Micro-Model?',
+                body: `
+                    <p class="mb-4">We don't need a 70B parameter model to understand your codebase. We need a small, highly specialized expert.</p>
+                    <p class="mb-4"><strong>Benefits of 1-3B Parameters:</strong></p>
+                    <ul class="list-disc pl-5 mb-4 space-y-2">
+                        <li><strong>Run Anywhere:</strong> Can run on a developer's laptop or a standard GitHub Actions runner.</li>
+                        <li><strong>Fast Training:</strong> Fine-tuning takes minutes, not days.</li>
+                        <li><strong>Low Latency:</strong> Inference is near-instant, making it practical for real-time linting.</li>
+                    </ul>
+                    <p>It's not about general knowledge (who is the president?); it's about specific knowledge (how do we handle retries in the payment module?).</p>
+                `
+            },
+            'lora-updates': {
+                title: 'Continuous Learning with LoRA',
+                body: `
+                    <p class="mb-4">Low-Rank Adaptation (LoRA) allows us to fine-tune a model without retraining all its parameters. This is the secret sauce that makes ArchGuardian economically viable.</p>
+                    <p class="mb-4"><strong>The Workflow:</strong></p>
+                    <ol class="list-decimal pl-5 mb-4 space-y-2">
+                        <li>PR is merged.</li>
+                        <li>GitHub Action extracts the diff and the "why" (PR description, comments).</li>
+                        <li>A small LoRA adapter is trained on this new data.</li>
+                        <li>The adapter is saved to the repo (only a few MBs).</li>
+                    </ol>
+                    <p>This means the model is always up-to-date with the latest code, unlike static base models that are months old.</p>
+                `
+            },
+            'scheduled-rebuilds': {
+                title: 'Preventing Drift with Rebuilds',
+                body: `
+                    <p class="mb-4">Incremental updates are great, but over time, a model can "forget" older parts of the codebase or over-index on recent changes (catastrophic forgetting).</p>
+                    <p class="mb-4"><strong>The Solution:</strong></p>
+                    <p>A scheduled job (e.g., every Sunday night) performs a "Full Rebuild." It scans the entire repository from scratch, creating a fresh, balanced training dataset, and trains a new set of adapters. This ensures the model maintains a holistic view of the entire system.</p>
+                `
+            },
+            'base-model': {
+                title: '1. The Base Model',
+                body: `
+                    <p class="mb-4">ArchGuardian starts with a high-quality, open-weights base model (e.g., Llama-3-8B, Phi-3, or Gemma). This model already understands code syntax, logic, and general programming concepts.</p>
+                    <p>We don't train this from scratch. We use it as the intelligent foundation upon which we build your project's specific "personality."</p>
+                `
+            },
+            'fine-tuning': {
+                title: '2. The Fine-Tuning Pipeline',
+                body: `
+                    <p class="mb-4">This is where the magic happens. The pipeline converts your codebase into a training dataset:</p>
+                    <ul class="list-disc pl-5 mb-4 space-y-2">
+                        <li><strong>Code Pairs:</strong> Input: "Create a user service." Output: [Your actual UserServiceImpl code].</li>
+                        <li><strong>Architecture Rules:</strong> Input: "Check for layer violations." Output: [Examples of valid vs invalid calls].</li>
+                        <li><strong>PR History:</strong> Input: [Old Code]. Output: [New Code + Commit Message].</li>
+                    </ul>
+                    <p>This teaches the model not just <em>what</em> your code looks like, but <em>how</em> it evolves.</p>
+                `
+            },
+            'inference': {
+                title: '3. Inference & MCP',
+                body: `
+                    <p class="mb-4">ArchGuardian exposes its intelligence via the <strong>Model Context Protocol (MCP)</strong>. This is a standard that allows AI tools to talk to each other.</p>
+                    <p class="mb-4"><strong>How it's used:</strong></p>
+                    <ul class="list-disc pl-5 mb-4 space-y-2">
+                        <li><strong>In IDE:</strong> Your Copilot extension queries ArchGuardian to get the right context before generating code.</li>
+                        <li><strong>In CI/CD:</strong> A GitHub Action queries ArchGuardian to "lint" the PR for architectural consistency.</li>
+                        <li><strong>In Chat:</strong> You ask "How does auth work?" and the model answers based on <em>your</em> implementation, not a generic tutorial.</li>
+                    </ul>
+                `
+            }
+        };
+
+        function openModal(id) {
+            const modal = document.getElementById('modal');
+            const body = document.getElementById('modal-body');
+            const content = modalContent[id];
+
+            if (content) {
+                body.innerHTML = `
+                    <h3 class="text-2xl font-bold text-[#333333] mb-4">${content.title}</h3>
+                    <div class="text-gray-600 leading-relaxed">
+                        ${content.body}
+                    </div>
+                `;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        }
+
+        function closeModal(event) {
+            if (event) event.preventDefault();
+            const modal = document.getElementById('modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+
+            sections.forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+</html>
