@@ -1,15 +1,15 @@
-# The Solution
+# ArchGuardian: The Learned Guardrail
 
-ArchGuardian introduces a new concept:  
-**a per‑repository micro‑model that evolves with your codebase.**
+ArchGuardian moves AI from an Autocomplete tool to an Architectural Guardian.
 
-This model:
+## Micro-Model Specialization
+Instead of high-latency generalist models, we use 1B–3B parameter models (e.g., Llama-3.2 or Qwen-2.5) that are small enough to run on standard CI/CD runners but optimized for repo-specific syntax.
 
-- Lives inside the repository
-- Learns from every PR
-- Rebuilds itself on a schedule
-- Understands your architecture and patterns
-- Exposes a clean API for any AI agent
-- Acts as an AI architectural linter
+## LoRA as Permanent Memory
+We store "learned" architectural patterns as Low-Rank Adaptation (LoRA) weights in the `.project-model/` directory. These weights act as a versioned, specialized brain for your specific codebase.
 
-ArchGuardian gives your project a persistent architectural memory - something no existing AI tool provides.
+## The Validation Loop
+ArchGuardian only learns from merged PRs. This creates a "filtered truth" pipeline where the model only internalizes patterns that have already survived human review and QA.
+
+## Agent-Native Interface
+By exposing these patterns via the Model Context Protocol (MCP), any agent (Cursor, Windsurf, Copilot) can query the "canonical" way to build a feature in your specific repo.

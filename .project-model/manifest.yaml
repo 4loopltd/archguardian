@@ -1,0 +1,19 @@
+project: "ArchGuardian-Core"
+enforcement: strict
+
+# Hard rules defined by the Senior Architect
+rules:
+  - id: layer-isolation-01
+    pattern: "no_ui_to_db"
+    description: "Components in /src/ui must not import from /src/db."
+    severity: critical
+  - id: result-pattern
+    pattern: "wrap_api_responses"
+    description: "All endpoints in /src/api must return a Result<T, E> type."
+    severity: error
+
+# Training configuration
+training:
+  base_model: "unsloth/Llama-3.2-3B-bnb-4bit"
+  rebuild_frequency: "weekly"
+  learn_from_comments: true

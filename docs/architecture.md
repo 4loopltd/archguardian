@@ -1,59 +1,19 @@
-# ArchGuardian Architecture
+# The Guardian Stack
 
-ArchGuardian introduces a new architectural layer in software development:  
-a **per‑repository micro‑model** that evolves with your codebase.
+ArchGuardian is composed of three decoupled layers:
 
-This document describes the system architecture, model lifecycle, and integration points.
+## The Weights Store (`.project-model/`)
 
----
+- `adapter_config.json`: LoRA configuration (rank, alpha, target modules).
+- `adapter_model.safetensors`: The learned weights (~50MB - 150MB).
+- `manifest.yaml`: Human-in-the-loop configuration for mandatory rules.
 
-## High‑Level Components
+## The Trainer Engine
 
-- **Base Model (1–3B parameters)**  
-  A small, efficient model suitable for LoRA fine‑tuning.
+- A Python-based utility using the Unsloth library for high-speed, 4-bit fine-tuning.
+- Designed to run on a GitHub Actions T4 GPU or self-hosted runner.
 
-- **Training Corpus Builder**  
-  Scans the repository and constructs a curated dataset.
+## The MCP Server
 
-- **LoRA Fine‑Tuning Pipeline**  
-  Runs on PR merges to update the model incrementally.
-
-- **Scheduled Rebuild Pipeline**  
-  Re‑fine‑tunes the model from scratch to prevent drift.
-
-- **MCP / API Interface**  
-  Exposes architectural intelligence to any AI agent.
-
-- **Model Storage**  
-  Stored inside the repository for full transparency and versioning.
-
----
-
-## Data Sources
-
-- Source code
-- Documentation
-- PR descriptions
-- Review comments
-- Commit messages
-- Architecture notes
-- Dependency graphs
-
----
-
-## Integration Points
-
-- GitHub Actions
-- GitHub PR lifecycle
-- Copilot / IDE agents
-- MCP‑compatible tools
-- Local developer workflows
-
----
-
-## Security Model
-
-- No cross‑tenant training
-- No centralised model hosting
-- All training happens locally or on self‑hosted runners
-- Full enterprise control of weights and data  
+- A Node.js or Python server that mounts the `.project-model/` weights.
+- Implements the `tools/call` and `resources/read` methods for architectural validation.

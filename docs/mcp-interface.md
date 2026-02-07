@@ -1,33 +1,26 @@
-# MCP Interface Specification
+# Standardizing the Architectural Query
 
-ArchGuardian exposes a clean interface for AI agents.
+ArchGuardian exposes its specialized knowledge through the Model Context Protocol (MCP). This allows IDEs to treat the repository's "brain" as a first-class tool.
 
----
+## Example Tool Definition (JSON-RPC)
 
-## Methods
+```json
+{
+  "name": "verify_compliance",
+  "description": "Checks code for architectural drift against the project model.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "file_path": { "type": "string" },
+      "content": { "type": "string" }
+    },
+    "required": ["content"]
+  }
+}
+```
 
-### `get_architecture_summary()`
-Returns a high‑level overview of the project’s architecture.
+## Core Tools
 
-### `find_pattern(pattern: string)`
-Returns locations and explanations of how a pattern is implemented.
-
-### `impact_analysis(symbol: string)`
-Returns modules, files, and tests affected by a change.
-
-### `suggest_canonical_implementation(feature: string)`
-Returns the canonical pattern used in the repo.
-
-### `lint_architecture(diff: string)`
-Returns warnings and suggestions for architectural consistency.
-
----
-
-## Response Format
-
-All responses include:
-
-- Summary
-- Detailed findings
-- Confidence score
-- References to files/lines  
+- `check_architectural_fit`: Analyzes a code snippet for violations of learned patterns.
+- `get_canonical_example`: Retrieves the most "successful" implementation of a pattern (e.g., "How do we handle state transitions in this repo?").
+- `analyze_impact`: Predicts which modules will be affected by a change based on historical merge data.

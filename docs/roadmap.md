@@ -1,31 +1,17 @@
 # Roadmap
 
-## Phase 1 - Proposal (Current)
-- Website
-- Documentation
-- Architecture diagrams
-- GitHub repo structure
+## Phase 1: The Protocol (Current)
+- Define the `.project-model/` filesystem structure.
+- Finalize the `manifest.yaml` schema for human-defined "Hard Rules."
 
-## Phase 2 - Prototype
-- Training corpus builder
-- LoRA fine‑tuning script
-- MCP interface stub
-- Example GitHub Action
+## Phase 2: The Trainer (v0.1 Alpha)
+- Release the `archguardian-trainer` CLI using Unsloth.
+- Support for Llama-3.2 1B and 3B base models.
 
-## Phase 3 - Alpha
-- Working micro‑model
-- PR‑triggered updates
-- Scheduled rebuilds
-- Basic architectural linting
+## Phase 3: The Guardian Action
+- Public GitHub Action for automated "Merge-to-Learn" workflows.
+- "Architectural Linting" reports directly in PR status checks.
 
-## Phase 4 - Beta
-- IDE integration
-- Copilot integration
-- Pattern enforcement
-- Impact analysis
-
-## Phase 5 - Production
-- Enterprise features
-- Model sharding for monorepos
-- Advanced linting
-- Multi‑agent coordination
+## Phase 4: Ecosystem Integration
+- MCP server for Cursor, Windsurf, and VS Code.
+- "Architecture Score" badges for repositories.

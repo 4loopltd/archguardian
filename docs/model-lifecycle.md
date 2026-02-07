@@ -1,52 +1,16 @@
-# Model Lifecycle
+# The "Accepted Truth" Pipeline
 
-ArchGuardian models evolve continuously with the repository.  
-This document describes the full lifecycle.
+## Ingestion
+When a PR is merged, the system gathers:
+- The code diff.
+- The PR description and linked issues.
+- Senior Reviewer comments (used as "positive/negative reinforcement" for training).
 
----
+## Fine-Tuning (Incremental)
+A LoRA pass updates the model. We use a high learning rate for specific new patterns but a low LoRA Alpha to prevent catastrophic forgetting.
 
-## 1. Initial Fine‑Tune
+## Snapshotting
+The new `safetensors` file is versioned and committed back to Git.
 
-A GitHub Action or local script:
-
-- Scans the entire repository
-- Builds a training corpus
-- Fine‑tunes the base model
-- Saves the initial LoRA adapters
-
----
-
-## 2. LoRA Updates on PR Merge
-
-Triggered by a GitHub Action:
-
-- Load current model + adapters
-- Extract:
-    - Diff
-    - Surrounding context
-    - PR description
-    - Review comments
-- Run LoRA fine‑tune
-- Save updated adapters
-
----
-
-## 3. Scheduled Rebuild
-
-Nightly or weekly:
-
-- Rebuild training corpus
-- Re‑fine‑tune from base checkpoint
-- Archive old adapters
-- Replace with fresh adapters
-
----
-
-## 4. Inference
-
-Agents query the model via MCP/API:
-
-- Pattern detection
-- Impact analysis
-- Architectural linting
-- Canonical guidance  
+## Full Rebuild (Weekly)
+The model is retrained from a "clean" corpus of the entire repository to ensure the LoRA weights don't drift from the base model's logic.
